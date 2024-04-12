@@ -3,14 +3,7 @@
     <div class="col-7 m-auto">
       <h1 class="text-center">Cadastro de Alunos</h1>
       <form [formGroup]="studentFormGroup">
-        <div class="mb-3">
-          <label for="matricula" class="form-label">Matricula:</label>
-          <input type="text"
-                 class="form-control"
-                 id="matricula"
-                 formControlName="id"
-                 />
-        </div>
+
         <div class="mb-3">
           <label for="nome" class="form-label">Nome:</label>
           <input type="text"
@@ -40,6 +33,7 @@
             <th scope="col">Matrícula</th>
             <th scope="col">Nome</th>
             <th scope="col">Curso</th>
+            <th scope="col" class="text-end">Opções</th>
           </tr>
         </thead>
         <tbody>
@@ -47,6 +41,18 @@
             <th scope="row">{{student.id}}</th>
             <td>{{student.name}}</td>
             <td>{{student.course}}</td>
+            <td class="text-end">
+              <button class="btn btn-success me-2"
+                      (click)="update(student)"
+              >
+                Editar
+              </button>
+              <button class="btn btn-danger"
+                      (click)="delete(student)"
+              >
+                  Excluir
+              </button>
+            </td>
           </tr>
 
         </tbody>
@@ -54,3 +60,4 @@
     </div>
   </div>
 </div>
+

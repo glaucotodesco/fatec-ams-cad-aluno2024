@@ -1,19 +1,14 @@
 {
   "students": [
     {
-      "id": 1,
-      "name": "Glauco",
-      "course": "ADS"
-    },
-    {
       "id": 2,
-      "name": "Maria",
-      "course": "Letras"
+      "name": "Glauco",
+      "course": "Música"
     },
     {
       "id": 3,
-      "name": "José",
-      "course": "Matemática"
+      "name": "Jose",
+      "course": "Eventos"
     }
   ]
 }
