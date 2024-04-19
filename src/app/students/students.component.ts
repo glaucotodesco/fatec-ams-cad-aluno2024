@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Student } from '../student';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StudentService } from '../student.service';
 
 @Component({
@@ -13,6 +13,7 @@ export class StudentsComponent implements OnInit {
   students: Student[] = [];
   studentFormGroup: FormGroup;
   isEditing: boolean = false;
+  submitted: boolean = false;
 
 
   constructor(private formBuilder: FormBuilder,
@@ -20,8 +21,8 @@ export class StudentsComponent implements OnInit {
   ) {
     this.studentFormGroup = formBuilder.group({
       id: [''],
-      name: [''],
-      course: ['']
+      name: ['', [Validators.minLength(3), Validators.required]],
+      course: ['', [Validators.required]]
     });
   }
 
@@ -37,22 +38,29 @@ export class StudentsComponent implements OnInit {
   }
 
   save() {
-    if (this.isEditing) {
-      this.service.update(this.studentFormGroup.value).subscribe({
-        next: () => {
-          this.loadStudents();
-          this.isEditing = false;
-          this.studentFormGroup.reset();
-        }
-      })
-    }
-    else {
-      this.service.save(this.studentFormGroup.value).subscribe({
-        next: data => {
-          this.students.push(data);
-          this.studentFormGroup.reset();
-        }
-      });
+
+    this.submitted = true;
+
+    if (this.studentFormGroup.valid) {
+      if (this.isEditing) {
+        this.service.update(this.studentFormGroup.value).subscribe({
+          next: () => {
+            this.loadStudents();
+            this.isEditing = false;
+            this.studentFormGroup.reset();
+            this.submitted = false;
+          }
+        })
+      }
+      else {
+        this.service.save(this.studentFormGroup.value).subscribe({
+          next: data => {
+            this.students.push(data);
+            this.studentFormGroup.reset();
+            this.submitted = false;
+          }
+        });
+      }
     }
   }
 
@@ -68,7 +76,11 @@ export class StudentsComponent implements OnInit {
   }
 
 
+  get name(): any {
+    return this.studentFormGroup.get('name');
+  }
 
-
-
+  get course(): any {
+    return this.studentFormGroup.get('course');
+  }
 }
