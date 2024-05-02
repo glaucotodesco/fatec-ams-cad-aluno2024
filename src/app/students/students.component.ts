@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Student } from '../student';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StudentService } from '../student.service';
@@ -21,8 +21,7 @@ export class StudentsComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private studentService: StudentService,
-    private courseService: CourseService,
-    private changeDetectorRef: ChangeDetectorRef
+    private courseService: CourseService
   ) {
     this.studentFormGroup = formBuilder.group({
       id: [''],
@@ -50,11 +49,7 @@ export class StudentsComponent implements OnInit {
   }
 
   save() {
-
     this.submitted = true;
-
-    console.log(this.studentFormGroup.value);
-
     if (this.studentFormGroup.valid) {
       if (this.isEditing) {
         this.studentService.update(this.studentFormGroup.value).subscribe({
@@ -80,19 +75,21 @@ export class StudentsComponent implements OnInit {
 
   delete(student: Student) {
     this.studentService.delete(student).subscribe({
-      next: () => this.loadStudents()
+      next: () => {
+        this.loadStudents();
+        this.studentFormGroup.reset();
+        this.isEditing = false;
+      }
     });
+  }
+
+  compareCourses(course1: Course, course2: Course): boolean {
+    return course1 && course2 ? course1.id === course2.id : course1 === course2;
   }
 
   update(student: Student) {
     this.isEditing = true;
-    this.studentFormGroup.patchValue({
-      id: student.id,
-      name: student.name,
-      course: student.course
-    });
-
-    console.log(this.studentFormGroup.value);
+    this.studentFormGroup.setValue(student);
   }
 
 

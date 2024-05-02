@@ -2,34 +2,18 @@
   "students": [
     {
       "id": 1,
-      "name": "1sadasd",
+      "name": "111",
       "course": {
-        "id": 2,
-        "name": "Eventos"
+        "id": 1,
+        "name": "Computação"
       }
     },
     {
       "id": 2,
-      "name": "121321",
+      "name": "1sadasd",
       "course": {
-        "id": 1,
-        "name": "Computação"
-      }
-    },
-    {
-      "id": 3,
-      "name": "111111",
-      "course": {
-        "id": 1,
-        "name": "Computação"
-      }
-    },
-    {
-      "id": 4,
-      "name": "1111111111",
-      "course": {
-        "id": 1,
-        "name": "Computação"
+        "id": 2,
+        "name": "Eventos"
       }
     }
   ],

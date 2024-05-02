@@ -17,9 +17,11 @@
 
         <div class="mb-3">
           <label for="nome" class="form-label">Course:</label>
-          <select class="form-select" formControlName="course" >
+          
+          <select class="form-select" formControlName="course" [compareWith]="compareCourses">
               <option *ngFor="let course of courses" [ngValue]="course">{{course.name}}</option>
           </select>
+
           <small *ngIf="submitted && course.hasError('required')" class="text-danger">*O curso é requido!</small>
         </div>
 
