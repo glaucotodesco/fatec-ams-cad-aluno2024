@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Student } from '../student';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StudentService } from '../student.service';
+import { CourseService } from '../course.service';
+import { Course } from '../course';
 
 @Component({
   selector: 'app-students',
@@ -11,13 +13,17 @@ import { StudentService } from '../student.service';
 export class StudentsComponent implements OnInit {
 
   students: Student[] = [];
+  courses : Course[] = [];
+
+
   studentFormGroup: FormGroup;
   isEditing: boolean = false;
   submitted: boolean = false;
 
 
   constructor(private formBuilder: FormBuilder,
-    private service: StudentService
+    private studentService: StudentService,
+    private courseService: CourseService
   ) {
     this.studentFormGroup = formBuilder.group({
       id: [''],
@@ -29,13 +35,25 @@ export class StudentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadStudents();
+    this.loadCourses();
+  }
+
+  loadCourses() {
+    this.courseService.getCourses().subscribe({
+      next: data => this.courses = data
+    });
   }
 
   loadStudents() {
-    this.service.getStudents().subscribe({
+    this.studentService.getStudents().subscribe({
       next: data => this.students = data
     });
   }
+
+  compareCourses(course1: Course, course2: Course): boolean {
+     return course1 && course2 ? course1.id === course2.id : course1 === course2
+  }
+
 
   save() {
 
@@ -43,7 +61,7 @@ export class StudentsComponent implements OnInit {
 
     if (this.studentFormGroup.valid) {
       if (this.isEditing) {
-        this.service.update(this.studentFormGroup.value).subscribe({
+        this.studentService.update(this.studentFormGroup.value).subscribe({
           next: () => {
             this.loadStudents();
             this.isEditing = false;
@@ -53,7 +71,7 @@ export class StudentsComponent implements OnInit {
         })
       }
       else {
-        this.service.save(this.studentFormGroup.value).subscribe({
+        this.studentService.save(this.studentFormGroup.value).subscribe({
           next: data => {
             this.students.push(data);
             this.studentFormGroup.reset();
@@ -65,7 +83,7 @@ export class StudentsComponent implements OnInit {
   }
 
   delete(student: Student) {
-    this.service.delete(student).subscribe({
+    this.studentService.delete(student).subscribe({
       next: () => this.loadStudents()
     });
   }

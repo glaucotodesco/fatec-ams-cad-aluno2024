@@ -18,12 +18,15 @@
 
         <div class="mb-3">
           <label for="curso" class="form-label">Curso:</label>
-          <input type="text"
-                 class="form-control"
-                 id="curso"
-                 formControlName="course"
 
-                 />
+          <select class="form-select"
+                  formControlName="course"
+                  [compareWith]="compareCourses">
+                      <option *ngFor="let course of courses"  [ngValue]="course">
+                           {{course.name}}
+                      </option>
+          </select>
+
           <small *ngIf="submitted && course.hasError('required')" class="text-danger">*O curso é requido!</small>
         </div>
 
@@ -47,7 +50,7 @@
           <tr  *ngFor="let student of students">
             <th scope="row">{{student.id}}</th>
             <td>{{student.name}}</td>
-            <td>{{student.course}}</td>
+            <td>{{student.course.name}}</td>
             <td class="text-end">
               <button class="btn btn-success me-2"
                       (click)="update(student)"
