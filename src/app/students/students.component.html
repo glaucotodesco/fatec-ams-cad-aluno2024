@@ -1,40 +1,81 @@
-<div class="container bg-light p-4">
+<div class="container bg-light p-4 mt-4">
   <div class="row">
     <div class="col-7 m-auto">
       <h1 class="text-center">Cadastro de Alunos</h1>
       <form [formGroup]="studentFormGroup">
-
         <div class="mb-3">
           <label for="nome" class="form-label">Nome:</label>
-          <input type="text"
-                 class="form-control"
-                 id="nome"
-                 formControlName="name"
-                 />
-          <small *ngIf="submitted && name.hasError('required')" class="text-danger">*O nome é requido!</small>
-          <small *ngIf="submitted && name.hasError('minlength')" class="text-danger">*O nome tem tamanho mínimo de 3 caracteres!</small>
+          <input
+            type="text"
+            class="form-control"
+            id="nome"
+            formControlName="name"
+          />
+          <small
+            *ngIf="submitted && name.hasError('required')"
+            class="text-danger"
+            >*O nome é requido!</small
+          >
+          <small
+            *ngIf="submitted && name.hasError('minlength')"
+            class="text-danger"
+            >*O nome tem tamanho mínimo de 3 caracteres!</small
+          >
         </div>
-
 
         <div class="mb-3">
           <label for="curso" class="form-label">Curso:</label>
 
-          <select class="form-select"
-                  formControlName="course"
-                  [compareWith]="compareCourses">
-                      <option *ngFor="let course of courses"  [ngValue]="course">
-                           {{course.name}}
-                      </option>
+          <select
+            class="form-select"
+            formControlName="courseId"
+            [compareWith]="compareCourses"
+          >
+            <option *ngFor="let course of courses" [ngValue]="course.id">
+              {{ course.name }}
+            </option>
           </select>
 
-          <small *ngIf="submitted && course.hasError('required')" class="text-danger">*O curso é requido!</small>
+          <small
+            *ngIf="submitted && course.hasError('required')"
+            class="text-danger"
+            >*O curso é requido!</small
+          >
         </div>
 
+        <div class="mb-3">
+          <label class="form-check-label" for="active"> Ativo:</label>
+          <input
+            class="form-check-input ms-2"
+            type="checkbox"
+            value=""
+            id="active"
+            formControlName="active"
+          />
+        </div>
 
-        <button class="btn btn-primary"
-                (click)="save()">
-                Salvar
-        </button>
+        <div class="mb-3">
+          <div>
+            <label class="form-check-label" for="active"> Períodos:</label>
+            <span *ngFor="let period of periods">
+              <input
+                type="radio"
+                formControlName="period"
+                [value]="period"
+                class="ms-2 me-1"
+              />
+              <label>{{ period }}</label>
+            </span>
+          </div>
+          <small
+            *ngIf="submitted && period.hasError('required')"
+            class="text-danger"
+          >
+            *O período é requirido!
+          </small>
+        </div>
+
+        <button class="btn btn-primary" (click)="save()">Salvar</button>
       </form>
       <h1 class="text-center">Alunos</h1>
       <table class="table table-striped">
@@ -43,31 +84,31 @@
             <th scope="col">Matrícula</th>
             <th scope="col">Nome</th>
             <th scope="col">Curso</th>
-            <th scope="col" class="text-end">Opções</th>
+            <th scope="col">Ativo</th>
+            <th scope="col">Período</th>
+            <th scope="col" class="text-center">Opções</th>
           </tr>
         </thead>
         <tbody>
-          <tr  *ngFor="let student of students">
-            <th scope="row">{{student.id}}</th>
-            <td>{{student.name}}</td>
-            <td>{{student.course.name}}</td>
-            <td class="text-end">
-              <button class="btn btn-success me-2"
-                      (click)="update(student)"
-              >
+          <tr *ngFor="let student of students">
+            <th scope="row">{{ student.id }}</th>
+            <td>{{ student.name }}</td>
+            <td>{{ getCourseName(student.courseId)?.name }}</td>
+            <td>
+              <span *ngIf="student.active" class="badge text-bg-primary">Ativo</span>
+              <span *ngIf="!student.active" class="badge text-bg-secondary">Desativo</span>
+            <td>{{ student.period }}</td>
+            <td class="text-center">
+              <button class="btn btn-success me-2" (click)="update(student)">
                 Editar
               </button>
-              <button class="btn btn-danger"
-                      (click)="delete(student)"
-              >
-                  Excluir
+              <button class="btn btn-danger" (click)="delete(student)">
+                Excluir
               </button>
             </td>
           </tr>
-
         </tbody>
       </table>
     </div>
   </div>
 </div>
-

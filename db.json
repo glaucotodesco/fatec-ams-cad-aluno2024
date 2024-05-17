@@ -2,33 +2,23 @@
   "students": [
     {
       "id": 1,
-      "name": "121321",
-      "course": {
-        "id": 3,
-        "name": "Eventos"
-      }
+      "name": "1sadasd",
+      "courseId": 1,
+      "active": true,
+      "period": "Manhã"
     },
     {
       "id": 2,
-      "name": "Pedro",
-      "course": {
-        "id": 3,
-        "name": "Eventos"
-      }
-    },
-    {
-      "id": 3,
-      "name": "Maria",
-      "course": {
-        "id": 1,
-        "name": "Computação"
-      }
+      "name": "1sadasd",
+      "courseId": 2,
+      "active": false,
+      "period": "Manhã"
     }
   ],
   "courses": [
     {
       "id": 1,
-      "name": "Computação"
+      "name": "Computação 2"
     },
     {
       "id": 2,

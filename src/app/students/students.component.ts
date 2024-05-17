@@ -1,3 +1,5 @@
+import { Period } from './../period';
+import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Student } from '../student';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -14,7 +16,7 @@ export class StudentsComponent implements OnInit {
 
   students: Student[] = [];
   courses : Course[] = [];
-
+  periods = Object.values(Period);
 
   studentFormGroup: FormGroup;
   isEditing: boolean = false;
@@ -28,7 +30,9 @@ export class StudentsComponent implements OnInit {
     this.studentFormGroup = formBuilder.group({
       id: [''],
       name: ['', [Validators.minLength(3), Validators.required]],
-      course: ['', [Validators.required]]
+      courseId: ['', [Validators.required]],
+      active: [false,[Validators.required]],
+      period: ['',Validators.required]
     });
   }
 
@@ -93,12 +97,21 @@ export class StudentsComponent implements OnInit {
     this.studentFormGroup.setValue(student);
   }
 
+  getCourseName(courseId: number) : Course | undefined{
+     return this.courses.find( c => c.id === courseId);
+  }
 
   get name(): any {
     return this.studentFormGroup.get('name');
   }
 
   get course(): any {
-    return this.studentFormGroup.get('course');
+    return this.studentFormGroup.get('courseId');
   }
+
+  get period(): any {
+    return this.studentFormGroup.get('period');
+  }
+
+
 }
