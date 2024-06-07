@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Student } from '../student';
 import { Course } from '../course';
 import { Period } from '../period';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StudentService } from '../student.service';
 import { CourseService } from '../course.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-courses',
@@ -13,6 +14,7 @@ import { CourseService } from '../course.service';
 })
 export class CoursesComponent implements OnInit {
 
+  selectedCourse?: Course;
   students: Student[] = [];
   courses : Course[] = [];
   periods = Object.values(Period);
@@ -24,7 +26,8 @@ export class CoursesComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private studentService: StudentService,
-    private courseService: CourseService
+    private courseService: CourseService,
+    private modalService: NgbModal
   ) {
     this.courseFormGroup = formBuilder.group({
       id: [''],
@@ -49,7 +52,15 @@ export class CoursesComponent implements OnInit {
     });
   }
 
-
+  viewAlunos(modal: TemplateRef<any>, course:Course){
+    this.courseService.getStudentsFromCourse(course.id).subscribe({
+      next: data => {
+          this.students = data;
+          this.selectedCourse = course;
+          this.modalService.open(modal,{});
+      }
+    });
+  }
   save() {
 
     this.submitted = true;

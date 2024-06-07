@@ -29,7 +29,7 @@
           <select
             class="form-select"
             formControlName="courseId"
-            [compareWith]="compareCourses"
+
           >
             <option *ngFor="let course of courses" [ngValue]="course.id">
               {{ course.name }}

@@ -13,6 +13,13 @@
       "courseId": 2,
       "active": false,
       "period": "Manhã"
+    },
+    {
+      "id": 3,
+      "name": "Glauco Todesco",
+      "courseId": 1,
+      "active": true,
+      "period": "Manhã"
     }
   ],
   "courses": [
